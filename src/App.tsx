@@ -1,25 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import { main_components_routes } from './router/index';
+import { PersonalDetailPage } from './pages/personal-detail-page/personal-detail-page';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
 
 function App() {
+  //获取用户当前系统是否为暗黑模式
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  //根据用户系统是否暗黑模式生成对应的主题
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: prefersDarkMode ? 'dark' : 'light',
+        },
+      }),
+    [prefersDarkMode],
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Routes>
+        {
+          Object.keys(main_components_routes).map(main_route => main_components_routes[main_route])
+        }
+      </Routes>
+    </ThemeProvider>
   );
 }
 

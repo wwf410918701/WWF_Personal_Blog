@@ -1,0 +1,27 @@
+$paragraph-text-color: #757575;
+$divider-color: #e0e0e0;
+$default-green: #4caf50;
+
+.paragraph {
+  color: $paragraph-text-color;
+}
+
+.dividerIcon {
+  // color: $divider-color;
+  color: $default-green;
+}
+
+.divider {
+  margin-top: 80px;
+  width: 100%;
+  margin-bottom: 80px;
+}
+
+.greenColor {
+  color: $default-green;
+}
+
+.icon {
+  margin-left: 8px;
+  margin-right: 8px;
+}

@@ -1,0 +1,20 @@
+.projectPreviewBox:hover {
+  opacity: 0.2;
+  cursor: pointer;
+  ~.projectPreviewdes {
+    width: 580px;
+    height: 310px;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    left: 180px;
+    z-index: -1;
+  }
+}
+
+.projectPreviewdes {
+  display: none;
+}
