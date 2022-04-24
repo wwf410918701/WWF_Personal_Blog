@@ -1,6 +1,5 @@
 import { PersonalDetailPage } from '../pages/personal-detail-page/personal-detail-page';
 import { Route } from 'react-router-dom';
-import { type } from 'os';
 
 type RouteStore = {[routeName: string]: JSX.Element}
 
