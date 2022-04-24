@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Block-Chain-Ticket-Ecommerce/static/css/main.a1ae3d59.css",
-    "main.js": "/Block-Chain-Ticket-Ecommerce/static/js/main.38f52e43.js",
+    "main.js": "/Block-Chain-Ticket-Ecommerce/static/js/main.782bb8d3.js",
     "static/js/787.71300117.chunk.js": "/Block-Chain-Ticket-Ecommerce/static/js/787.71300117.chunk.js",
     "static/media/ecommerce-screenshot.png": "/Block-Chain-Ticket-Ecommerce/static/media/ecommerce-screenshot.9660d90eabc66f2dc598.png",
     "static/media/roboto-all-500-normal.woff": "/Block-Chain-Ticket-Ecommerce/static/media/roboto-all-500-normal.52cb737b682eb9661ee1.woff",
@@ -40,11 +40,11 @@
     "static/media/roboto-greek-ext-700-normal.woff2": "/Block-Chain-Ticket-Ecommerce/static/media/roboto-greek-ext-700-normal.9674bc0ae12c2551d9d1.woff2",
     "index.html": "/Block-Chain-Ticket-Ecommerce/index.html",
     "main.a1ae3d59.css.map": "/Block-Chain-Ticket-Ecommerce/static/css/main.a1ae3d59.css.map",
-    "main.38f52e43.js.map": "/Block-Chain-Ticket-Ecommerce/static/js/main.38f52e43.js.map",
+    "main.782bb8d3.js.map": "/Block-Chain-Ticket-Ecommerce/static/js/main.782bb8d3.js.map",
     "787.71300117.chunk.js.map": "/Block-Chain-Ticket-Ecommerce/static/js/787.71300117.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a1ae3d59.css",
-    "static/js/main.38f52e43.js"
+    "static/js/main.782bb8d3.js"
   ]
 }
