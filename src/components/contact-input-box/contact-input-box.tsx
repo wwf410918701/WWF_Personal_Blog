@@ -22,25 +22,47 @@ export const ContactInputBox = () => {
   const [name, setName] = useState<string>();
   const [email, setemail] = useState<string>();
   const [message, setMessage] = useState<string>();
+  const [errorTextFields, setErrorTextField] = useState<{[index: string]: boolean}>({});
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const [showFailureMessage, setShowFailureMessage] = useState(false) 
 
   return (<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', rowGap: '10px' }}>
-    <TextField className="contactInputField" id="name" label="Name" required
-      onChange={(e) => {setName(e.target.value)}}
+    <TextField className="contactInputField" id="name" label="Name" required error={errorTextFields['name']} helperText={errorTextFields['name']? 'Please input' : null}
+      onChange={(e) => {
+        setErrorTextField({...errorTextFields, name: false})
+        setName(e.target.value)}}
     />
-    <TextField className="contactInputField" id="email" label="Email" variant="outlined" required
-      onChange={(e) => {setemail(e.target.value)}}
+    <TextField className="contactInputField" id="email" label="Email" variant="outlined" required error={errorTextFields['email']} helperText={errorTextFields['email']? 'Please input' : null}
+      onChange={(e) => {
+        setErrorTextField({...errorTextFields, email: false})
+        setemail(e.target.value)}}
     />
-    <TextField className="contactInputField" id="message" label="Message" variant="outlined" multiline rows={13} required
-      onChange={(e) => {setMessage(e.target.value)}}
+    <TextField className="contactInputField" id="message" label="Message" variant="outlined" multiline rows={13} required error={errorTextFields['message']} helperText={errorTextFields['message']? 'Please input' : null}
+      onChange={(e) => {
+        setErrorTextField({...errorTextFields, message: false})
+        setMessage(e.target.value)}}
     />
     <Button variant="contained" onClick={async() => {
-      if(await storeEmployerMessage(name, email, message)) {
-        setShowSuccessMessage(true)
+      let validated = true
+      if (!name || name.trim().length === 0) {
+        setErrorTextField({name: true})
+        validated = false
       }
-      else {
-        setShowFailureMessage(true)
+      if(!email || email.trim().length === 0) {
+        setErrorTextField((preState) => ({...preState, email: true}))
+        validated = false
+      }
+      if (!message || message.trim().length === 0) {
+        setErrorTextField((preState) => ({...preState, message: true}))
+        validated = false
+      }
+      if(validated) {
+        if(await storeEmployerMessage(name, email, message)) {
+          setShowSuccessMessage(true)
+        }
+        else {
+          setShowFailureMessage(true)
+        }
       }
       }
     }
