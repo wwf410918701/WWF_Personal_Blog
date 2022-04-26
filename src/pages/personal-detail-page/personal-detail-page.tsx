@@ -43,7 +43,7 @@ const workExperiences: workExperience[] = [{
   Des: [{workOutCome: 'Backend SQL APIs', des: "Developed two APIs on P&G's loyalty system to fetch customer's data from different data bases and push the results to message queue."},
   {workOutCome: 'Code Optimization', des: 'Optimized 10+ code errors and warnings that were detected by sonarqube.'},
   {workOutCome: 'Backend Internationalization',
-    des: 'Analysised and determined which part of the loyalty system will be used by the foreign frontend users, translated thoseAPI,paramaters,DTO into English.'}]}]
+    des: 'Analysised and determined which part of the loyalty system will be used by the foreign frontend users, translated thoseAPI, paramaters, DTO into English.'}]}]
 
 export const PersonalDetailPage = () => {
     const headerItems = ["Welcome to Jimmy's website"]
