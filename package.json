@@ -1,7 +1,6 @@
 {
   "name": "rrts",
   "version": "0.1.0",
-  "homepage": "https://wwf410918701.github.io/Block-Chain-Ticket-Ecommerce",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.8.2",
