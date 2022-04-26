@@ -26,13 +26,13 @@ export const ContactInputBox = () => {
   const [showFailureMessage, setShowFailureMessage] = useState(false) 
 
   return (<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', rowGap: '10px' }}>
-    <TextField className="contactInputField" id="name" label="Name" 
+    <TextField className="contactInputField" id="name" label="Name" required
       onChange={(e) => {setName(e.target.value)}}
     />
-    <TextField className="contactInputField" id="email" label="Email" variant="outlined" 
+    <TextField className="contactInputField" id="email" label="Email" variant="outlined" required
       onChange={(e) => {setemail(e.target.value)}}
     />
-    <TextField className="contactInputField" id="message" label="Message" variant="outlined" multiline rows={13}
+    <TextField className="contactInputField" id="message" label="Message" variant="outlined" multiline rows={13} required
       onChange={(e) => {setMessage(e.target.value)}}
     />
     <Button variant="contained" onClick={async() => {
