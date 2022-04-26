@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Container from '@mui/material/Container';
 import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography/Typography";
 import Grid from '@mui/material/Grid/Grid';
 import Item from '@mui/material/ListItem/ListItem';
-import { AppBar, Toolbar, IconButton, Button, Link } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Button, Link, Stack } from "@mui/material";
 import CodeIcon from '@mui/icons-material/Code';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import PeopleAlt from '@mui/icons-material/PeopleAlt';
 import ContactPageIcon from '@mui/icons-material/ContactPage';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 
 import { HeaderNavBar } from '../../components/header-nav-bar/header-nav-bar';
 import ProgrammerPic from '../../data/images/programmer.png';
@@ -19,6 +21,29 @@ import { SkillsSetBox } from "../../components/skills-set-box/skills-set-box";
 import { WorkMateFeedbackBox } from '../../components/workmate-feedbacks-box/workmate-feedback-box';
 import { GoogleMap } from '../../components/google-map/google-map';
 import { ContactInputBox } from "../../components/contact-input-box/contact-input-box";
+import { workExperience, WorkExperiencesBox } from "../../components/work-experiences/work-experiences";
+
+const workExperiences: workExperience[] = [{
+  startTime: 'Dec 2021',
+  endTime: 'Apr 2022',
+  companyName: 'SenseTime',
+  position: 'Frontend Developer Intern - Autodrive Dataplatform Department',
+  base: 'ShenZhen',
+  Des: [{workOutCome: 'Automated Data Report', 
+    des: 'Used React, Typescript, TinyMCE , Antd(ant design), AntV to create an automated data report panel, which provides overall accumulated histograms and detail tables about the cases of a round of auto drive road test. Users can filter the cases that they want to show and make or modify reviews on the rows of case data that needs to be awared of. Last but not least, users can conviently ouput the whole form to PDF then share with others.'},
+  {workOutCome: 'Automatically Generated FrontEnd',
+    des: 'Used React & Typescript to create an operating panel for users to create web pages of different types of quality test, user can spcify details of the created page such as which data visualization tabs the page should contains, which datasets to include, corresponding frontend page will be generated automatically. Users can also do CRUD on the existing test pages.'},
+  {workOutCome: 'Simulated Road Editor',
+    des: 'Created new features, such as allowing users to add pedestrians and set the routines that pedestrians will run on the preview mode, adding loading and error pages.'}]},
+  {startTime: 'Jul 2020',
+  endTime: 'Oct 2020',
+  companyName: 'Procter & Gamble',
+  position: 'IT Intern - IT department',
+  base: 'GuangZhou',
+  Des: [{workOutCome: 'Backend SQL APIs', des: "Developed two APIs on P&G's loyalty system to fetch customer's data from different data bases and push the results to message queue."},
+  {workOutCome: 'Code Optimization', des: 'Optimized 10+ code errors and warnings that were detected by sonarqube.'},
+  {workOutCome: 'Backend Internationalization',
+    des: 'Analysised and determined which part of the loyalty system will be used by the foreign frontend users, translated thoseAPI,paramaters,DTO into English.'}]}]
 
 export const PersonalDetailPage = () => {
     const headerItems = ["Welcome to Jimmy's website"]
@@ -38,7 +63,8 @@ export const PersonalDetailPage = () => {
                   <Box sx={{ padding: '20px', marginTop: '100px' }}>
                     <Box sx={{marginBottom: '20px'}}>
                       <Typography variant="h4">
-                        Hi, I'm Jimmy, a frontend developer.
+                        Hi, I'm Jimmy{<LinkedInIcon className="LinkedInIcon" color="primary" sx={{marginLeft: '5px'}} onClick={() => {window.open("https://www.linkedin.com/in/%E4%BC%9F%E9%94%8B-%E5%90%B4-6b829b1a2/?locale=en_US")}}/>}
+                        , a frontend developer.
                       </Typography>
                       <Typography variant="h4">
                         I am currently looking for internship opportunity. 
@@ -51,16 +77,23 @@ export const PersonalDetailPage = () => {
                       </Typography>
                     </Box>
                     <Toolbar sx={{justifyContent: 'center'}}>
-                      <Button variant="contained" style={{marginRight: '50px'}} color='success' 
-                        onClick={() => {document.querySelector('#contactMe')?.scrollIntoView({behavior: 'smooth'})}}
-                      >
-                        <span style={{color: '#fff'}}>Work With Me</span>
-                      </Button>
-                      <Button variant="outlined"
-                        onClick={() => {document.querySelector('#myProject')?.scrollIntoView({behavior: 'smooth'})}}
-                      >
-                        See My Past Work
-                      </Button>
+                      <Stack direction='row' spacing={5}>
+                        <Button variant="contained"  color='success' 
+                          onClick={() => {document.querySelector('#contactMe')?.scrollIntoView({behavior: 'smooth'})}}
+                        >
+                          <span style={{color: '#fff'}}>Work With Me</span>
+                        </Button>
+                        <Button variant="outlined" style={{color: '#651fff'}} color='secondary' 
+                          onClick={() => {document.querySelector('#workmateFeedback')?.scrollIntoView({behavior: 'smooth'})}}
+                        >
+                          <span style={{color: '#ce93d8'}}>Feedback from my workmates</span>
+                        </Button>
+                        <Button variant="outlined"
+                          onClick={() => {document.querySelector('#myProject')?.scrollIntoView({behavior: 'smooth'})}}
+                        >
+                          See My Past Work
+                        </Button>
+                      </Stack>
                     </Toolbar>
                   </Box>
                 </Item>
@@ -69,6 +102,11 @@ export const PersonalDetailPage = () => {
                <img src={ProgrammerPic} style={{width: '80%', height: '70%', marginLeft: '50px', marginTop: '50px'}}></img>
               </Grid>
             </Grid>
+            <Divider key='work-experiences'
+              title={'Work Experiences'}  
+              icon={<WorkHistoryIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
+            />
+            <WorkExperiencesBox workExperiences={workExperiences}/>
             <Divider key='project-details'
               title={'My Projects'} 
               paragraphs={
@@ -94,7 +132,13 @@ export const PersonalDetailPage = () => {
               title='Feedbacks From My Workmates'
             />
             <WorkMateFeedbackBox feedBacks={workmateFeedback}/>
-            <Divider title="Hire Me" paragraphs={[<Typography variant="h5" className="paragraph">My contact details are as followed.</Typography>]}
+            <Divider title="Hire Me" paragraphs={[
+              <Typography variant="h5" className="paragraph" sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <div>
+                  My base and contact details are as followed.
+                </div>
+                <LinkedInIcon className="LinkedInIcon" color="primary" sx={{marginLeft: '5px'}} onClick={() => {window.open("https://www.linkedin.com/in/%E4%BC%9F%E9%94%8B-%E5%90%B4-6b829b1a2/?locale=en_US")}}/>
+              </Typography>]}
               icon={<ContactPageIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
             />
             <Grid id='contactMe' container spacing={2} sx={{ justifyContent: 'center', }}>

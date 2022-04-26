@@ -25,13 +25,13 @@ export const SkillsSetBox = ({ skillsets }: SkillsSetBoxProps) => (
   <>
     {skillsets.map((skillset, index) => (
       <Grid container spacing={2} sx={{justifyContent: 'center', marginBottom: '16px'}}>
-        <Grid item key={'skillsetbox_' + index} xs={4} >
+        <Grid item key={'skillsetbox_' + index + '_left'} xs={4} >
           <Paper elevation={6} sx={{display: 'flex' ,height: '50px', alignItems: 'center'}}>
             <CheckCircle className="greenColor icon" />
             {skillset[0]}
           </Paper>
         </Grid>
-        <Grid item key={'skillsetbox_' + index} xs={4}>
+        <Grid item key={'skillsetbox_' + index  + '_right'} xs={4}>
           <Paper elevation={6} sx={{display: 'flex', height: '50px', alignItems: 'center'}}>
             <CheckCircle className="greenColor icon" />
             {skillset[1]}

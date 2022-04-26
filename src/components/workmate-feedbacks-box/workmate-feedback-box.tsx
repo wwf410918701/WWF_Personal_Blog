@@ -13,7 +13,7 @@ interface WorkMateFeedbackBoxProps {
 }
 
 export const WorkMateFeedbackBox = ({ feedBacks }: WorkMateFeedbackBoxProps) => (
-  <Grid container spacing={2} sx={{justifyContent: 'center', marginBottom: '16px'}}>
+  <Grid id='workmateFeedback' container spacing={2} sx={{justifyContent: 'center', marginBottom: '16px'}}>
     <Grid item key={'skillsetbox_1'} xs={3} >
       <Paper elevation={6} sx={{display: 'flex', flexDirection: 'column', padding: '20px', alignItems: 'center', justifyContent: 'center', height: '100%'}}>
         <Typography className="feedback-box-paragraph">

@@ -11,9 +11,9 @@ export const HeaderNavBar = ({ headerItems }: HeaderNavBarProps) => {
   return(
     <AppBar position="static">
       <Toolbar>
-        <IconButton edge='start'>
+        {/* <IconButton edge='start'>
           <MenuIcon />
-        </IconButton>
+        </IconButton> */}
         {headerItems.map(headerItem => (
           <IconButton key={headerItem}>
             {headerItem}
