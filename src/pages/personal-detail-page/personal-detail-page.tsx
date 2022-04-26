@@ -56,7 +56,7 @@ export const PersonalDetailPage = () => {
     return (
         <>
           <HeaderNavBar headerItems={headerItems}/>
-          <Container sx={{ minHeight: '100vh', minWidth: '100%', paddingBottom: '100px' }}>
+          <Container sx={{ minHeight: '100vh', minWidth: '85%', paddingBottom: '100px' }}>
             <Grid container spacing={2} sx={{ minWidth: '100%' }}>
               <Grid item xs={8}>
                 <Item>

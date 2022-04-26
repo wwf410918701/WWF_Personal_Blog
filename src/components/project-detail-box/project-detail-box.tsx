@@ -22,11 +22,11 @@ export const ProjectDetailBox = () => {
               window.open(projectPreviewPic.url)
             }
           }}>
-            <img src={projectPreviewPic.img} style={{width: '580px', height: '310px'}}></img>
+            <img src={projectPreviewPic.img} style={{width: '100%', height: '310px'}}></img>
           </Item>
         </Grid>
         <Box className='projectPreviewdes'>
-          <Box sx={{width: '80%', textAlign: 'center'}}>
+          <Box sx={{width: '100%', textAlign: 'center'}}>
             <Typography variant="h6" className="paragraph" color='#4caf50'> 
               {projectPreviewPic.des[0]}
             </Typography>
