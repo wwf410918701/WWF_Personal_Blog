@@ -24,8 +24,10 @@ export const LeftDrawer = observer(() => {
       if (user) {
         fetchUserName(user.uid)
         .then(userName => {
-          userStore.userLogin(user.uid, userName as string, user.email as string)
-          storeUser(user.uid, user.displayName, user.email, new Date())
+          if(userName) {
+            userStore.userLogin(user.uid, userName as string, user.email as string)
+            storeUser(user.uid, user.displayName, user.email, new Date())
+          }
         })
       }
     })

@@ -62,8 +62,10 @@ export const BlogPage = () => {
           <span style={{color: '#2196f3', marginLeft: '8px', marginRight: '8px'}}>{summary.time}</span>
         </Typography>
       </Stack>
-      <Paper sx={{minHeight: '80vh', paddingLeft: '10px'}}>
-        <div dangerouslySetInnerHTML={{__html: blog}}></div>
+      <Paper sx={{minHeight: '80vh', padding: '10px'}}>
+        <div 
+          dangerouslySetInnerHTML={{__html: blog}} 
+          style={{wordBreak: 'break-word'}}></div>
       </Paper>
       <Snackbar open={showFailureMessage} autoHideDuration={10000} onClose={() => setShowFailureMessage(false)}>
         <Alert onClose={() => setShowFailureMessage(false)} severity="error" sx={{ width: '100%'}}>

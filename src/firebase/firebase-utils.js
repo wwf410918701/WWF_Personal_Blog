@@ -114,6 +114,7 @@ export const fetchPostSummary = (id) => {
 export const storeUser = async (uid, displayName, email, createAt) => {
   const userRef = firestore.doc(`users/${uid}`)
   const userSnapshot = await userRef.get()
+  
 
   if(!userSnapshot.exists) {
     return userRef.set({
