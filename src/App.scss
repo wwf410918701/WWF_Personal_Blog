@@ -1,0 +1,97 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// :root, :host {
+//   // textarea - css vars
+//   --w-e-textarea-bg-color: #fff;
+//   --w-e-textarea-color: #333;
+//   --w-e-textarea-border-color: #ccc;
+//   --w-e-textarea-slight-border-color: #e8e8e8;
+//   --w-e-textarea-slight-color: #d4d4d4;
+//   --w-e-textarea-slight-bg-color: #f5f2f0;
+//   --w-e-textarea-selected-border-color: #B4D5FF; // 选中的元素，如选中了分割线
+//   --w-e-textarea-handler-bg-color: #4290f7; // 工具，如图片拖拽按钮
+
+//   // toolbar - css vars
+//   --w-e-toolbar-color: #595959;
+//   --w-e-toolbar-bg-color: #fff;
+//   --w-e-toolbar-active-color: #333;
+//   --w-e-toolbar-active-bg-color: #f1f1f1;
+//   --w-e-toolbar-disabled-color: #999;
+//   --w-e-toolbar-border-color: #e8e8e8;
+
+//   // modal - css vars
+//   --w-e-modal-button-bg-color: #fafafa;
+//   --w-e-modal-button-border-color: #d9d9d9;
+// }
+
+.w-e-text-container, .w-e-bar {
+  --w-e-textarea-bg-color: #272727;
+  --w-e-textarea-color: #fff;
+  /* ...其他... */
+  // textarea - css vars
+  // --w-e-textarea-bg-color: #fff;
+  // --w-e-textarea-color: #333;
+  // --w-e-textarea-border-color: #ccc;
+  // --w-e-textarea-slight-border-color: #e8e8e8;
+  // --w-e-textarea-slight-color: #d4d4d4;
+  // --w-e-textarea-slight-bg-color: #f5f2f0;
+  // --w-e-textarea-selected-border-color: #B4D5FF; // 选中的元素，如选中了分割线
+  // --w-e-textarea-handler-bg-color: #4290f7; // 工具，如图片拖拽按钮
+
+  // // toolbar - css vars
+  --w-e-toolbar-color: #fff;
+  --w-e-toolbar-bg-color: #272727;
+  --w-e-toolbar-active-color: rgb(131, 125, 125);
+  --w-e-toolbar-active-bg-color: #b8b4b4;
+  --w-e-toolbar-disabled-color: rgb(124, 123, 123);
+  --w-e-toolbar-border-color: #e8e8e8;
+  --w-e-textarea-slight-bg-color: rgb(75, 75, 78);
+  --w-e-textarea-slight-border-color: #706d6d;
+
+  // // modal - css vars
+  // --w-e-modal-button-bg-color: #fafafa;
+  // --w-e-modal-button-border-color: #d9d9d9;
+}
+
+code {
+  background-color: rgb(75, 75, 78);
+
+  border: 1px solid #706d6d;
+}

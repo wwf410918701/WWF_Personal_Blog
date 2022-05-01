@@ -17,7 +17,6 @@ export const ProjectDetailBox = () => {
       <>
         <Grid item xs={5} key={'project_pre_pic_'+index} className={projectPreviewPic.url? 'projectPreviewBox' : undefined}>
           <Item onClick={() => {
-            console.log(projectPreviewPic.url)
             if(projectPreviewPic.url) {
               window.open(projectPreviewPic.url)
             }

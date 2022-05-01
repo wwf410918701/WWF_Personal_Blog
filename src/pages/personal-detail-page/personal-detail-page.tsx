@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography/Typography";
 import Grid from '@mui/material/Grid/Grid';
 import Item from '@mui/material/ListItem/ListItem';
-import { AppBar, Toolbar, IconButton, Button, Link, Stack } from "@mui/material";
+import { Toolbar, Button, Link, Stack, IconButton } from "@mui/material";
 import CodeIcon from '@mui/icons-material/Code';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
 import PeopleAlt from '@mui/icons-material/PeopleAlt';
@@ -22,6 +22,7 @@ import { WorkMateFeedbackBox } from '../../components/workmate-feedbacks-box/wor
 import { GoogleMap } from '../../components/google-map/google-map';
 import { ContactInputBox } from "../../components/contact-input-box/contact-input-box";
 import { workExperience, WorkExperiencesBox } from "../../components/work-experiences/work-experiences";
+import { ContentContainer } from "../../components/shared-cutomsized-components/content-container/content-container";
 
 const workExperiences: workExperience[] = [{
   startTime: 'Dec 2021',
@@ -46,7 +47,7 @@ const workExperiences: workExperience[] = [{
     des: 'Analysised and determined which part of the loyalty system will be used by the foreign frontend users, translated thoseAPI, paramaters, DTO into English.'}]}]
 
 export const PersonalDetailPage = () => {
-    const headerItems = ["Welcome to Jimmy's website"]
+    const headerItems = [{title: "Welcome to Jimmy's website", navigation: () => {}}]
     const skillsets = [['React', 'Typescript'], ['Javascript', 'Redux & Its popular middlewares'], ['ANTD', 'Material UI'] ]
     const workmateFeedback = [{paragraph: 'WeiFeng has solid knowledge of key techniques in frontend development like react, js, hence he was really fast to adapt and start building apps after arrived at company. Besides, I was impressed by his good learning ability, when facing with tasks that contains unfamiliar techniques, he can grasp the skills fastly then begin working.'
       , name: 'WeiBin Zhou', position: 'Frontend developer, Sensetime'}, 
@@ -55,8 +56,12 @@ export const PersonalDetailPage = () => {
 
     return (
         <>
-          <HeaderNavBar headerItems={headerItems}/>
-          <Container sx={{ minHeight: '100vh', minWidth: '85%', paddingBottom: '100px' }}>
+          <HeaderNavBar>
+            <Typography variant='h5'>
+              Welcome to Jimmy's website
+            </Typography>
+          </HeaderNavBar>
+          <ContentContainer>
             <Grid container spacing={2} sx={{ minWidth: '100%' }}>
               <Grid item xs={8}>
                 <Item>
@@ -151,7 +156,7 @@ export const PersonalDetailPage = () => {
                 <ContactInputBox />
               </Grid>
             </Grid>
-          </Container>
+          </ContentContainer>
         </>
     );
 }
