@@ -99,6 +99,12 @@ export const MyBlogsPage = observer(() => {
           </Stack>
         </Stack>
       ))}
+      {blogSummaries.length === 0? 
+        (<Box sx={{width: '100%', display: 'flex', justifyContent: 'center', padding:'20vh'}}>
+          <Typography variant="h5" sx={{ color: '#424242' }}>
+            No blog yet, try to create one!
+          </Typography>
+        </Box>) : null}
       </Stack>  
     </ContentContainer>
   )
