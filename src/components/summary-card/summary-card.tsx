@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography/Typography";
 import Box from "@mui/material/Box/Box";
 
 import DefaultBlogPoster from '../../data/images/default-blog-poster.png';
+import { convertToDate } from "../../utils/utils";
 
 interface SummaryCardProps {
   // imageUrl: string;
@@ -23,7 +24,8 @@ interface SummaryCardProps {
 
 export const SummaryCard = ({ id, title, summary, time, author, posterUrl }: SummaryCardProps) => {
   const navigate = useNavigate();
-  const createTime = new Date(time.seconds * 1000)
+  // const createTime = new Date(time.seconds * 1000 + time.nanoseconds)
+  const createTime = convertToDate(time)
 
   return (
     <Card sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer'}} onClick={() => navigate(`/blogs/blogPage/${id}`)}>

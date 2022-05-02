@@ -8,7 +8,7 @@ import { ContentContainer } from "../../components/shared-cutomsized-components/
 import { fetchPost, fetchPostSummary } from "../../firebase/firebase-utils";
 import Paper from "@mui/material/Paper/Paper";
 import { Stack, Typography } from "@mui/material";
-import Box from "@mui/lab/node_modules/@mui/system/Box";
+import { convertToDate } from "../../utils/utils";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -37,7 +37,7 @@ export const BlogPage = () => {
       .then(() => {
         fetchPostSummary(id)
         .then(summaryData => {
-          const createTime = new Date(summaryData?.time.seconds * 1000)
+          const createTime = convertToDate(summaryData?.time)
           setSummary({
             time: `${createTime.getFullYear()}/${createTime.getMonth()}/${createTime.getDay()} - ${createTime.getHours()}:${createTime.getMinutes()}`,
             author: summaryData?.author??'unknown'

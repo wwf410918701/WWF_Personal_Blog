@@ -26,8 +26,8 @@ interface WorkExperiencesBoxProps {
 
 export const WorkExperiencesBox = ({ workExperiences }: WorkExperiencesBoxProps) => (
   <Timeline position="alternate">
-    {workExperiences.map(workExperience => (
-      <TimelineItem>
+    {workExperiences.map((workExperience, index) => (
+      <TimelineItem key={`workExperience_timeLine_${index}`}>
         <TimelineOppositeContent
           sx={{ m: 'auto 0' }}
           align="right"
@@ -46,8 +46,8 @@ export const WorkExperiencesBox = ({ workExperiences }: WorkExperiencesBoxProps)
             {workExperience.companyName}
           </Typography>
           <Typography>{workExperience.position}</Typography>
-          {workExperience.Des.map(d => (
-            <Box sx={{marginTop: '10px'}}>
+          {workExperience.Des.map((d, index) => (
+            <Box key={`work_experience_Box_${index}`} sx={{marginTop: '10px'}}>
               <Box sx={{display: 'flex', marginBottom: '5px'}}>
                 <CheckCircleOutlineIcon/>
                 <Typography>{d.workOutCome}</Typography>

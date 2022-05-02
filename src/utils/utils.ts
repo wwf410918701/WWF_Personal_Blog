@@ -1,0 +1,1 @@
+export const convertToDate = (time: {seconds: number, nanoseconds: number}) => (new Date(time.seconds * 1000 + time.nanoseconds))
