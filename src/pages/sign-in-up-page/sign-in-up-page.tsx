@@ -37,7 +37,7 @@ export const SignInOrSignUpPage = ({ signInMode }: SignInOrSignUpPageProps) => {
   const handleSignUp = async() => {
     try {
       const { user } = await auth.createUserWithEmailAndPassword(email, password)
-      await storeUser(user?.uid, displayName, email, new Date())
+      await storeUser(user?.uid, displayName, email, new Date(), [])
       navigate(-1)
     } catch (error) {
       console.log('Error when sign up user')

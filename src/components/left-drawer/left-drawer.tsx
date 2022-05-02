@@ -10,7 +10,7 @@ import { Box, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/mate
 import PersonIcon from '@mui/icons-material/Person';
 
 import OpenForHirePic from '../../data/images/openForHirePic.png';
-import { auth, fetchUserName, storeUser } from "../../firebase/firebase-utils";
+import { auth, fetchUserInfo, storeUser } from "../../firebase/firebase-utils";
 
 export const LeftDrawer = observer(() => {
   const { globalUiStore } = useContext(RootStoreContext)
@@ -22,11 +22,15 @@ export const LeftDrawer = observer(() => {
   useEffect(action(() => {
     unsubscribeFromAuth.current = auth.onAuthStateChanged(user => {
       if (user) {
-        fetchUserName(user.uid)
-        .then(userName => {
-          if(userName) {
-            userStore.userLogin(user.uid, userName as string, user.email as string)
-            storeUser(user.uid, user.displayName, user.email, new Date())
+        fetchUserInfo(user.uid)
+        .then(userInfo => {
+          if(userInfo?.displayName) {
+            userStore.userLogin(user.uid, userInfo.displayName, user.email as string, userInfo.blogs)
+            // storeUser(user.uid, user.displayName, user.email, new Date())
+          }
+          if(user.displayName && !userInfo) {
+            storeUser(user.uid, user.displayName, user.email, new Date(), [])
+            userStore.userLogin(user.uid, user.displayName, user.email as string, null)
           }
         })
       }

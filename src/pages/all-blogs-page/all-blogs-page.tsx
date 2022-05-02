@@ -64,7 +64,7 @@ export const AllBlogsPage = () => {
         <Divider>
           Blogs
         </Divider>
-        <Stack direction='column' spacing={2} sx={{marginTop: '30px'}}>
+        <Stack direction='column' spacing={3} sx={{marginTop: '30px'}}>
           {blogSummaries.map(blogSummary => (
             <SummaryCard 
               id={blogSummary.id} 

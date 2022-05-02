@@ -42,14 +42,14 @@ export const storeEmployerMessage = async (name, email, message) => {
 }
 
 //google authentication won't provide user name
-export const fetchUserName = (uid) => {
+export const fetchUserInfo = (uid) => {
   const userRef = firestore.doc(`users/${uid}`)
 
   return userRef.get()
-  .then(userDoc => userDoc.data()?.displayName)
+  .then(userDoc => userDoc.data())
 }
 
-export const storePost = async(title, summary, paragraph, author, posterImgUrl) => {
+export const storePost = async(title, summary, paragraph, author, posterImgUrl, userID) => {
   const createAt = new Date()
   const postsSummariesCollectionRef = firestore.collection(`postsAbstract/`)
   
@@ -78,6 +78,9 @@ export const storePost = async(title, summary, paragraph, author, posterImgUrl) 
               content: paragraph,
           }
         )
+      })
+      .then(async () => {
+        await addBlogToUserAccount(userID, (lastId + 1))
       })
     })
   .catch((e) => {
@@ -111,7 +114,19 @@ export const fetchPostSummary = (id) => {
   .then(postdoc => postdoc.data())
 }
 
-export const storeUser = async (uid, displayName, email, createAt) => {
+export const addBlogToUserAccount = (userID, blogID) => {
+  const userAccountRef = firestore.doc(`users/${userID}`)
+  
+  return userAccountRef.get().then(data => data.data()['blogs'])
+    .then(preBlogs => [...preBlogs, blogID])
+    .then(updatedBlogs => userAccountRef.update('blogs', updatedBlogs))
+    .catch(e => {
+      console.log('Error when trying to save the post to your account.')
+      console.log(e);
+    })
+} 
+
+export const storeUser = async (uid, displayName, email, createAt, blogs) => {
   const userRef = firestore.doc(`users/${uid}`)
   const userSnapshot = await userRef.get()
   
@@ -122,6 +137,7 @@ export const storeUser = async (uid, displayName, email, createAt) => {
       displayName,
       email,
       createAt,
+      blogs,
     })
     .catch((e) => {
       console.log("Error when saving google login users' info")
@@ -138,6 +154,26 @@ const storage = getStorage();
 const metadata = {
   contentType: 'image/jpeg'
 };
+
+export const deletePost = (postID, userID) => {
+  const postRef = firestore.doc(`posts/${postID}`)
+  const postAbstractRef = firestore.doc(`postsAbstract/${postID}`)
+
+  return postRef.delete()
+  .then(() => {
+    postAbstractRef.delete()
+    .then(() => deletePostBelongingOnUserAccount(postID, userID))
+  })
+}
+
+const deletePostBelongingOnUserAccount = (postID, userID) => {
+  const userRef = firestore.doc(`users/${userID}`)
+
+  userRef.get()
+  .then(res => res.data()['blogs'])
+  .then(userBlogs => userBlogs.filter(userBlog => userBlog !== postID))
+  .then(updatedUserBlog => userRef.update('blogs', updatedUserBlog))
+}
 
 export const uploadImg = (filename, file) => {
   // Upload file and metadata to the object 'images/mountains.jpg'

@@ -6,16 +6,20 @@ class userStore {
   userEmail: string | null = null
   userName: string | null = null
   rootStore: RootStore | null = null;
+  userBlogs: number[] = [];
 
   constructor(rootStore: RootStore) {
     makeAutoObservable(this, { rootStore: false }, { autoBind: true })
     this.rootStore = rootStore
   }
 
-  userLogin(userID: string, userName: string, userEmail: string) {
+  userLogin(userID: string, userName: string, userEmail: string, userBlogs: number[] | null) {
     this.userID = userID
     this.userName = userName
     this.userEmail = userEmail
+    if(userBlogs) {
+      this.userBlogs = userBlogs
+    }
   }
 
   userLogout() {

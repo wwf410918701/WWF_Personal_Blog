@@ -119,9 +119,9 @@ export const CreateNewBlogsPage = observer(() => {
               }
               if(validated) {
                 if(!posterImg) {
-                  if(await storePost(title, summary, paragraph, userStore.userName, null)) {
+                  if(await storePost(title, summary, paragraph, userStore.userName, null, userStore.userID)) {
                     setShowSuccessMessage(true)
-                    setTimeout(() => {navigate('/blogs/')}, 3000)
+                    setTimeout(() => {navigate('/blogs/')}, 500)
                   }
                   else {
                     setShowFailureMessage(true)
@@ -130,9 +130,9 @@ export const CreateNewBlogsPage = observer(() => {
                 else {
                   uploadImg(posterImg?.name, posterImg)
                   .then(async (posterImgUrl) => {
-                    if(await storePost(title, summary, paragraph, userStore.userName, posterImgUrl)) {
+                    if(await storePost(title, summary, paragraph, userStore.userName, posterImgUrl, userStore.userID)) {
                       setShowSuccessMessage(true)
-                      setTimeout(() => {navigate('/blogs/')}, 3000)
+                      setTimeout(() => {navigate('/blogs/')}, 500)
                     }
                     else {
                       setShowFailureMessage(true)
@@ -181,7 +181,7 @@ export const CreateNewBlogsPage = observer(() => {
           Successfully save the post. Now redirecting to the All Post page.
         </Alert>
       </Snackbar>
-      <Snackbar open={showFailureMessage} autoHideDuration={10000} onClose={() => setShowFailureMessage(false)}>
+      <Snackbar open={showFailureMessage} autoHideDuration={3000} onClose={() => setShowFailureMessage(false)}>
         <Alert onClose={() => setShowFailureMessage(false)} severity="error" sx={{ width: '100%'}}>
           Opps, some errors happened when trying to save your post. Please try again later.
         </Alert>
