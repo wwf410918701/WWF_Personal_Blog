@@ -49,6 +49,42 @@ export const fetchUserInfo = (uid) => {
   .then(userDoc => userDoc.data())
 }
 
+export const updatePost = async(postID, title, summary, paragraph, author, posterImgUrl, userID) => {
+  const createAt = new Date()
+  const postAbstractRef = firestore.doc(`postsAbstract/${postID}`)
+  const postRef = firestore.doc(`posts/${postID}`)
+  const blogComments = await postRef.get()['comments']
+
+  await postAbstractRef.set(
+    {
+      id: postID,
+      title,
+      summary,
+      time: createAt,
+      author,
+      posterImgUrl,
+    }
+  )
+  .then(async() => {
+    
+    await postRef.set(
+      {
+          id: postID,
+          title,
+          content: paragraph,
+          comments: blogComments
+      }
+    )
+  })
+  .catch((e) => {
+    // TODO:发生失败时数据库两个均需回退，也即删除已创建的某一部分数据
+    console.log('Error when updating post to firebase=>')
+    console.log(e)
+    return false
+  })
+  return true
+}
+
 export const storePost = async(title, summary, paragraph, author, posterImgUrl, userID) => {
   const createAt = new Date()
   const postsSummariesCollectionRef = firestore.collection(`postsAbstract/`)
@@ -76,6 +112,7 @@ export const storePost = async(title, summary, paragraph, author, posterImgUrl, 
               id: lastId + 1,
               title,
               content: paragraph,
+              comments: [],
           }
         )
       })

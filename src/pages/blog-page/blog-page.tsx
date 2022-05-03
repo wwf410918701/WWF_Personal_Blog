@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -7,8 +7,10 @@ import Snackbar from "@mui/material/Snackbar/Snackbar";
 import { ContentContainer } from "../../components/shared-cutomsized-components/content-container/content-container";
 import { fetchPost, fetchPostSummary } from "../../firebase/firebase-utils";
 import Paper from "@mui/material/Paper/Paper";
-import { Stack, Typography } from "@mui/material";
+import { Divider, Stack, Typography } from "@mui/material";
 import { convertToDate } from "../../utils/utils";
+import { CommentCard } from "../../components/comment-card/comment-card";
+import { RootStoreContext } from "../../App";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -16,6 +18,13 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 ) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
+
+type comment = {
+  content: string,
+  displayName: string,
+  createAt?: Date,
+  uid: string,
+}
 
 export const BlogPage = () => {
   const [blog, setBlog] = useState('')
@@ -25,14 +34,18 @@ export const BlogPage = () => {
     author: '',
   })
   const [showFailureMessage, setShowFailureMessage] = useState(false) 
+  const [comments, setComments] = useState<comment[]>([])
+
   const { blogID } = useParams()
   const id = parseInt(blogID as string)
+  const { userStore } = useContext(RootStoreContext)
 
   useEffect(() => {
     fetchPost(id)
       .then(blogData => {
         setBlog(blogData?.content as string)
         setTitle(blogData?.title)
+        setComments(blogData?.comments)
       })
       .then(() => {
         fetchPostSummary(id)
@@ -45,6 +58,7 @@ export const BlogPage = () => {
       })
       .catch(e => {
         console.log('Error happen when fetching blog')
+        console.log(e)
       })
   }, [])
 
@@ -67,6 +81,16 @@ export const BlogPage = () => {
           dangerouslySetInnerHTML={{__html: blog}} 
           style={{wordBreak: 'break-word'}}></div>
       </Paper>
+      <Divider textAlign="left" sx={{marginTop: '50px', marginBottom: '20px'}}>
+        <Typography variant="h5">
+          Comments
+        </Typography>
+      </Divider>
+      <Stack spacing={2}>
+        {comments.map(comment => 
+          <CommentCard content={comment.content} displayName={comment.displayName} allowModify={comment.uid === userStore.userID} />
+        )}
+      </Stack>
       <Snackbar open={showFailureMessage} autoHideDuration={10000} onClose={() => setShowFailureMessage(false)}>
         <Alert onClose={() => setShowFailureMessage(false)} severity="error" sx={{ width: '100%'}}>
           Fail to load this blog, try again later please.

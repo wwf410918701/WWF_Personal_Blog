@@ -1,6 +1,6 @@
 
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Snackbar from "@mui/material/Snackbar/Snackbar";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -18,7 +18,7 @@ import IconButton from "@mui/material/IconButton/IconButton";
 
 import MyEditor from "../../components/editor/editor";
 import { ContentContainer } from "../../components/shared-cutomsized-components/content-container/content-container";
-import { storePost, uploadImg } from "../../firebase/firebase-utils";
+import { fetchPost, fetchPostSummary, storePost, updatePost, uploadImg } from "../../firebase/firebase-utils";
 import { RootStoreContext } from "../../App";
 import { observer } from "mobx-react-lite";
 import { getObjectURL } from "../../utils/get-local-file-url";
@@ -35,8 +35,8 @@ interface TitleBoxProps {
   title: string;
 }
 
-const TitleBox = ({ title }: TitleBoxProps) => (
-  <Typography variant="h4" sx={{width: '100%', alignText: 'left', margin: '20px'}}>
+export const TitleBox = ({ title }: TitleBoxProps) => (
+  <Typography variant="h4" sx={{width: '100%', alignText: 'left', marginTop: '20px', marginBottom: '20px'}}>
     {title}
   </Typography>
 )
@@ -45,7 +45,7 @@ export const CreateNewBlogsPage = observer(() => {
   const [openCancelConfirm, setOpenCancelConfirm] = useState(false);
   const [title, settitle] = useState('')
   const [summary, setSummary] = useState('')
-  const [paragraph, setParagraph] = useState('')
+  const [paragraph, setParagraph] = useState("<p>Enjoying writing!</p>")
   const [errorTextFields, setErrorTextField] = useState<{[index: string]: boolean}>({});
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const [showFailureMessage, setShowFailureMessage] = useState(false) 
@@ -54,18 +54,47 @@ export const CreateNewBlogsPage = observer(() => {
   const navigate = useNavigate();
   const { userStore } = useContext(RootStoreContext)
 
+  //null when this component as create new blog page, not null when as edit blog
+  const { blogID } = useParams()
+
+  useEffect(() => {
+    if(blogID) {
+      const blogIDforEdit = parseInt(blogID)
+      fetchPost(blogIDforEdit)
+      .then(blogContent => {
+        setParagraph(blogContent?.content)
+        settitle(blogContent?.title)
+      })
+      .then(() => {
+        fetchPostSummary(blogIDforEdit)
+        .then(blogSummary => {
+          setSummary(blogSummary?.summary)
+          setPoster(blogSummary?.posterImgUrl)
+        })
+        .catch(e => {
+          console.log('Error when fetching the summary of the blog to be edited')
+          console.log(e)
+        })
+      })
+      .catch(error => {
+        console.log('Error when feching the blog to be edited.')
+        console.log(error)
+      })
+    }
+  }, [blogID])
+
   return (
     <ContentContainer>
       <Stack direction='column' alignItems='center' sx={{marginTop: '30px'}}>
         <TitleBox title={'Title'}/>
-        <TextField fullWidth label="title..." id="fullWidth" variant="filled" 
+        <TextField fullWidth label="title..." id="fullWidth" variant="filled" value={title}
           onChange={(e) => {
             settitle(e.target.value)
             setErrorTextField({...errorTextFields, title: false})
           }}  
           error={errorTextFields['title']}/>
         <TitleBox title={'Summary'}/>
-        <TextField fullWidth label="summary..." id="fullWidth" variant="filled"  
+        <TextField fullWidth label="summary..." id="fullWidth" variant="filled"  value={summary}
           onChange={(e) => {
             setSummary(e.target.value)
             setErrorTextField({...errorTextFields, summary: false})
@@ -84,8 +113,8 @@ export const CreateNewBlogsPage = observer(() => {
                 <DeleteIcon />
               </Button>
             </Stack>)
-             :
-             (<label htmlFor="releaseTicket_detail_uploadFile">
+            :
+            (<label htmlFor="releaseTicket_detail_uploadFile">
                   <Input id="releaseTicket_detail_uploadFile" type="file" 
                     onChange={(e: any) => {
                       const uploadFile = document.getElementById("releaseTicket_detail_uploadFile") as any;
@@ -103,7 +132,7 @@ export const CreateNewBlogsPage = observer(() => {
         </Box>
         <TitleBox title={'Post'}/>
         <Box sx={{width: '100%'}}>
-          <MyEditor placeholder="paragraph..." updateCallback={(htmlString: string) => {setParagraph(htmlString)}}/>
+          <MyEditor placeholder={paragraph} updateCallback={(htmlString: string) => {setParagraph(htmlString)}}/>
         </Box>
         <Stack direction='row' spacing={5} sx={{marginTop: '50px'}}>
           <Button variant="contained" component="span" sx={{width: '200px', height: '50px'}} color='success'
@@ -119,18 +148,37 @@ export const CreateNewBlogsPage = observer(() => {
               }
               if(validated) {
                 if(!posterImg) {
-                  if(await storePost(title, summary, paragraph, userStore.userName, null, userStore.userID)) {
-                    setShowSuccessMessage(true)
-                    setTimeout(() => {navigate('/blogs/')}, 500)
+                  if(poster) {
+                    if(blogID? (await updatePost(blogID, title, summary, paragraph, userStore.userName, poster, userStore.userID))
+                      :
+                      (await storePost(title, summary, paragraph, userStore.userName, poster, userStore.userID))
+                    ) {
+                      setShowSuccessMessage(true)
+                      setTimeout(() => {navigate('/blogs/')}, 500)
+                    }
+                    else {
+                      setShowFailureMessage(true)
+                    }
                   }
-                  else {
-                    setShowFailureMessage(true)
+                  else{
+                    if(blogID? (await updatePost(blogID, title, summary, paragraph, userStore.userName, null, userStore.userID))
+                      :
+                      (await storePost(title, summary, paragraph, userStore.userName, null, userStore.userID))
+                    ) {
+                      setShowSuccessMessage(true)
+                      setTimeout(() => {navigate('/blogs/')}, 500)
+                    }
+                    else {
+                      setShowFailureMessage(true)
+                    }
                   }
                 }
                 else {
                   uploadImg(posterImg?.name, posterImg)
                   .then(async (posterImgUrl) => {
-                    if(await storePost(title, summary, paragraph, userStore.userName, posterImgUrl, userStore.userID)) {
+                    if(blogID? (await updatePost(blogID, title, summary, paragraph, userStore.userName, posterImgUrl, userStore.userID))
+                      :
+                      (await storePost(title, summary, paragraph, userStore.userName, posterImgUrl, userStore.userID))) {
                       setShowSuccessMessage(true)
                       setTimeout(() => {navigate('/blogs/')}, 500)
                     }

@@ -16,8 +16,7 @@ interface MyEditorProps {
 
 const MyEditor = ({ placeholder, updateCallback }: MyEditorProps) => {
     const [editor, setEditor] = useState<IDomEditor | null>(null) // 存储 editor 实例
-    const [htmlString, setHtmlString] = useState(`<p>${placeholder}</p>`) // 编辑器内容
-
+    const [htmlString, setHtmlString] = useState(placeholder) // 编辑器内容
     i18nChangeLanguage('en')
 
     const toolbarConfig: Partial<IToolbarConfig> = {
@@ -60,6 +59,11 @@ const MyEditor = ({ placeholder, updateCallback }: MyEditorProps) => {
     useEffect(() => {
       updateCallback(htmlString)
     }, [htmlString])
+
+    //update this component when parent node passes in new params (placeHolder)
+    useEffect(() => {
+        setHtmlString(placeholder)
+    }, [placeholder])
 
     return (
         <>

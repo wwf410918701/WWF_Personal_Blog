@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { RootStoreContext } from "../../App";
 import { ContentContainer } from "../../components/shared-cutomsized-components/content-container/content-container";
@@ -18,9 +19,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 export const MyBlogsPage = observer(() => {
   const [openCancelConfirm, setOpenCancelConfirm] = useState<{[index: string]: boolean}>({});
-
-  const { userStore } = useContext(RootStoreContext)
   const [blogSummaries, setBlogSummaries] = useState<any[]>([])
+  const { userStore } = useContext(RootStoreContext)
+  const navigate = useNavigate()
+
   useEffect(() => {
     Promise.allSettled(userStore.userBlogs.map(blogid => fetchPostSummary(blogid)))
     .then(results => {
@@ -32,9 +34,6 @@ export const MyBlogsPage = observer(() => {
       );
     })
   }, [userStore.userBlogs])
-
-  // console.log('my blogs')
-  // console.log(userStore.userBlogs)
 
   return (
     <ContentContainer>
@@ -58,7 +57,7 @@ export const MyBlogsPage = observer(() => {
             />
           </Box>
           <Stack>
-            <Button onClick={() => {}}> 
+            <Button onClick={() => {navigate(`/blogs/editblog/${blogSummary.id}`)}}> 
               <ModeEditIcon />
             </Button>
             <Button color="error" onClick={() => {setOpenCancelConfirm({[blogSummary.id]: true})}}> 
