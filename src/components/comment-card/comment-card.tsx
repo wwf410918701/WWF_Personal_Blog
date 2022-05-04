@@ -91,7 +91,7 @@ export const CommentCard = ({ blogID, content, displayName, createAt, allowModif
           {`By: ${displayName}`}
           <span style={{color: '#2196f3', marginLeft: '20px'}}>
             {createTime? 
-            `${createTime.getFullYear()}/${createTime.getMonth()}/${createTime.getDay()} - ${createTime.getHours()}:${createTime.getMinutes()}` 
+            `${createTime?.toDateString()}` 
             : 
             'create time unknown'}
           </span>

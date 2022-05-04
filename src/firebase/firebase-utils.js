@@ -95,9 +95,6 @@ export const storePost = async(title, summary, paragraph, author, posterImgUrl, 
     })
     .then(async (lastId) => {
       const postAbstractRef = firestore.doc(`postsAbstract/${lastId+1}`)
-      console.log(typeof lastId)
-      console.log('lastId+1=>')
-      console.log(lastId+1)
       await postAbstractRef.set(
         {
           id: lastId + 1,
@@ -342,8 +339,6 @@ export const deleteComment = (blogID, commentID) => {
   return postRef.get().then(postRes => postRes.data())
   .then(post => post.comments)
   .then(preComments => {
-    console.log(preComments.filter(preComment => {
-      return parseInt(preComment.commentID) !== parseInt(commentID)}))
     postRef.update('comments', preComments.filter(preComment => preComment.commentID !== commentID))
   })
 }
