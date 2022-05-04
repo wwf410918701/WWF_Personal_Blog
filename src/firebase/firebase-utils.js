@@ -53,7 +53,7 @@ export const updatePost = async(postID, title, summary, paragraph, author, poste
   const createAt = new Date()
   const postAbstractRef = firestore.doc(`postsAbstract/${postID}`)
   const postRef = firestore.doc(`posts/${postID}`)
-  const blogComments = await postRef.get()['comments']
+  const blogComments = await (await postRef.get()).data()['comments']
 
   await postAbstractRef.set(
     {
@@ -95,6 +95,9 @@ export const storePost = async(title, summary, paragraph, author, posterImgUrl, 
     })
     .then(async (lastId) => {
       const postAbstractRef = firestore.doc(`postsAbstract/${lastId+1}`)
+      console.log(typeof lastId)
+      console.log('lastId+1=>')
+      console.log(lastId+1)
       await postAbstractRef.set(
         {
           id: lastId + 1,
@@ -263,5 +266,84 @@ export const uploadImg = (filename, file) => {
   );})
   .catch(error => {
     console.log(error)
+  })
+}
+
+export const updateComment = (blogID, commentID, content, displayName, uid) => {
+  const postRef = firestore.doc(`posts/${blogID}`)
+  const createAt = new Date()
+
+  return postRef.get().then(postRes => postRes.data())
+  .then(post => post.comments)
+  .then(preComments => postRef.update('comments', preComments.map(preComment => {
+    if(commentID === preComment.commentID) {
+      return {
+        commentID: parseInt(commentID),
+        content, 
+        displayName, 
+        createAt, 
+        uid,
+      }
+    }
+    return preComment
+  }))
+  )
+  .then(() => ({
+    commentID: parseInt(commentID),
+    content, 
+    displayName, 
+    createAt, 
+    uid,
+  }))
+}
+
+export const createComment = (blogID, content, displayName, uid) => {
+  const postRef = firestore.doc(`posts/${blogID}`)
+  const createAt = new Date()
+
+  return postRef.get().then(postRes => postRes.data())
+  .then(post => post.comments)
+  .then(preComments => {
+    let latestID = 0;
+
+    if (preComments.length !== 0) {
+      latestID = preComments.map(preComment => preComment.commentID).sort((a, b) => {
+        if (a > b) {
+          return -1;
+        }
+        if (b > a) {
+          return 1;
+        }
+        return 0;
+      })[0]
+    }
+
+    return{
+      latestCommentID: latestID + 1,
+      preComments,
+    }
+  })
+  .then(preCommentsData => {
+    const addedCommentsArray = [...preCommentsData.preComments, {
+      commentID: preCommentsData.latestCommentID,
+      content, 
+      displayName, 
+      createAt, 
+      uid,
+    }]
+    postRef.update('comments', addedCommentsArray)
+    return addedCommentsArray
+  })
+}
+
+export const deleteComment = (blogID, commentID) => {
+  const postRef = firestore.doc(`posts/${blogID}`)
+
+  return postRef.get().then(postRes => postRes.data())
+  .then(post => post.comments)
+  .then(preComments => {
+    console.log(preComments.filter(preComment => {
+      return parseInt(preComment.commentID) !== parseInt(commentID)}))
+    postRef.update('comments', preComments.filter(preComment => preComment.commentID !== commentID))
   })
 }

@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom";
 
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from "@mui/material/Snackbar/Snackbar";
+import Paper from "@mui/material/Paper/Paper";
+import Button from '@mui/material/Button';
+import { Box, Divider, Stack, TextField, Typography } from "@mui/material";
 
 import { ContentContainer } from "../../components/shared-cutomsized-components/content-container/content-container";
-import { fetchPost, fetchPostSummary } from "../../firebase/firebase-utils";
-import Paper from "@mui/material/Paper/Paper";
-import { Divider, Stack, Typography } from "@mui/material";
+import { createComment, fetchPost, fetchPostSummary } from "../../firebase/firebase-utils";
 import { convertToDate } from "../../utils/utils";
 import { CommentCard } from "../../components/comment-card/comment-card";
 import { RootStoreContext } from "../../App";
@@ -19,11 +20,14 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-type comment = {
+export type comment = {
   content: string,
   displayName: string,
-  createAt?: Date,
+  createAt?: {
+    seconds: number,
+    nanoseconds: number,},
   uid: string,
+  commentID: number,
 }
 
 export const BlogPage = () => {
@@ -35,6 +39,9 @@ export const BlogPage = () => {
   })
   const [showFailureMessage, setShowFailureMessage] = useState(false) 
   const [comments, setComments] = useState<comment[]>([])
+  const [newCommentText, setNewCommentText] = useState('')
+  const [newCommentInputError, setNewCommentInputError] = useState(false)
+  const [createCommentErrorMsg, setCreateCommentErrorMsg] = useState(false)
 
   const { blogID } = useParams()
   const id = parseInt(blogID as string)
@@ -58,6 +65,7 @@ export const BlogPage = () => {
       })
       .catch(e => {
         console.log('Error happen when fetching blog')
+        setShowFailureMessage(true)
         console.log(e)
       })
   }, [])
@@ -86,14 +94,61 @@ export const BlogPage = () => {
           Comments
         </Typography>
       </Divider>
+      <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', marginBottom: '50px', flexDirection: 'column' }}>
+        <TextField id="outlined-basic" 
+          label="Comment..." 
+          variant="outlined" 
+          sx={{width: '95%'}}
+          error={newCommentInputError}
+          onChange={(e) => {
+            setNewCommentInputError(false)
+            setNewCommentText(e.target.value)
+          }}
+        />
+        <Box sx={{width: '95%', display: 'flex', justifyContent: 'end', marginTop: '15px'}}>
+          <Button variant="contained" href="#contained-buttons" onClick={() => {
+            if(newCommentText.trim().length === 0) {
+              setNewCommentInputError(true)
+            }
+            else {
+              createComment(id, newCommentText, userStore.userName, userStore.userID)
+              .then(updatedComments => {
+                // setNewCommentText('')
+                setComments(updatedComments)})
+              .catch(e => {
+                console.log("Error when creating post")
+                console.log(e)
+                setCreateCommentErrorMsg(true)
+              })
+            }
+          }}>
+            Post
+          </Button>
+        </Box>
+      </Box>
       <Stack spacing={2}>
-        {comments.map(comment => 
-          <CommentCard content={comment.content} displayName={comment.displayName} allowModify={comment.uid === userStore.userID} />
+        {comments.map((comment, index) => 
+          <CommentCard 
+            key={`commentCard_${comment.commentID}`}
+            commentID={comment.commentID} 
+            content={comment.content} 
+            displayName={comment.displayName} 
+            createAt={comment.createAt}
+            allowModify={comment.uid === userStore.userID} 
+            blogID={id} 
+            updateAfterDeleteAComment={() => {
+              return setComments(comments.filter(c => {return c.commentID !== comment.commentID}))}}
+          />
         )}
       </Stack>
       <Snackbar open={showFailureMessage} autoHideDuration={10000} onClose={() => setShowFailureMessage(false)}>
         <Alert onClose={() => setShowFailureMessage(false)} severity="error" sx={{ width: '100%'}}>
           Fail to load this blog, try again later please.
+        </Alert>
+      </Snackbar>
+      <Snackbar open={createCommentErrorMsg} autoHideDuration={10000} onClose={() => setCreateCommentErrorMsg(false)}>
+        <Alert onClose={() => setCreateCommentErrorMsg(false)} severity="error" sx={{ width: '100%'}}>
+          Fail to create comment, try again later please.
         </Alert>
       </Snackbar>
     </ContentContainer>
