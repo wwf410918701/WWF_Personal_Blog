@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 export const ProjectDetailBox = () => {
   const navigate = useNavigate()
   const EcommerceDesParagraph = 'An online shop which contains most frequently-used features like login, items display, shopping cart, payment.'
-  const BlogDesParagraph = 'A Blog website that allow user to read blogs, sign up then create their blogs through a convenient online editor.'
+  const BlogDesParagraph = 'A Blog website that allows public users to read blogs, signed up users CRUD on their blogs and comments through a convenient online editor.'
   const projectPreviewPics = [{img: EcommercePic, url: 'https://weifeng-shop.herokuapp.com/', des: ["WWF's Shop", 'ECommerce website', EcommerceDesParagraph]}, 
     {img: BlogScreenShotPic, 'url': null, des: ['Personal Blog', 'Blog website', BlogDesParagraph]}]
 
