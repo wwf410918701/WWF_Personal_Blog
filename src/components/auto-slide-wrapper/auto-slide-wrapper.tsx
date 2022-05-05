@@ -13,7 +13,6 @@ interface AutoSlideWrapperProps {
   children: JSX.Element[]
 }
 
-//TODO slide滑动可以循环
 export const AutoSlideWrapper = ({ children }: AutoSlideWrapperProps) => {
   const [index, setIndex] = useState(0);
 

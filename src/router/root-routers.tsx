@@ -1,9 +1,11 @@
 import { Route } from 'react-router-dom';
-import { BlogsContainer } from '../pages/blogs-container/blogs-container';
+import { lazy } from 'react'
 
-import { PersonalDetailPage } from '../pages/personal-detail-page/personal-detail-page';
-import { SignInOrSignUpPage } from '../pages/sign-in-up-page/sign-in-up-page';
 import { RestrictedRoute } from '../utils/private-route';
+
+const BlogsContainer = lazy(() => import('../pages/blogs-container/blogs-container').then(module => ({ default: module.BlogsContainer })))
+const PersonalDetailPage = lazy(() => import('../pages/personal-detail-page/personal-detail-page').then(module => ({ default: module.PersonalDetailPage })))
+const SignInOrSignUpPage = lazy(() => import('../pages/sign-in-up-page/sign-in-up-page').then(module => ({ default: module.SignInOrSignUpPage })))
 
 export type RouteStore = {[routeName: string]: JSX.Element}
 

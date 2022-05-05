@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef } from 'react';
+import React, { createContext, Suspense, useContext, useEffect, useRef } from 'react';
 import { Routes } from 'react-router-dom';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -13,6 +13,8 @@ import RootStore from './store/root-store';
 import { LeftDrawer } from './components/left-drawer/left-drawer';
 import { auth } from './firebase/firebase-utils';
 import { action } from 'mobx';
+import LoadingPage from './components/loading-page/loading-page';
+import ErrorBoundaries from './components/error-boundaries/error-boundaries';
 
 export const RootStoreContext = createContext<RootStore>(new RootStore());
 
@@ -36,11 +38,15 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <LeftDrawer/>
-        <Routes>
-          {
-            Object.keys(main_components_routes).map(main_route => main_components_routes[main_route])
-          }
-        </Routes>
+        <ErrorBoundaries>
+        <Suspense fallback={<LoadingPage />}>
+          <Routes>
+              {
+                Object.keys(main_components_routes).map(main_route => main_components_routes[main_route])
+              }
+          </Routes>
+        </Suspense>
+        </ErrorBoundaries>
       </ThemeProvider>
     </RootStoreContext.Provider>
   );

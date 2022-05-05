@@ -1,5 +1,5 @@
 import IconButton from "@mui/material/IconButton/IconButton";
-import React from "react";
+import React, { Suspense } from "react";
 import { Routes, useNavigate, } from "react-router-dom";
 
 import CreateIcon from '@mui/icons-material/Create';
@@ -10,6 +10,8 @@ import {  HeaderNavBar } from "../../components/header-nav-bar/header-nav-bar";
 import { blogs_router } from "../../router/blogs-routers";
 import Box from "@mui/material/Box/Box";
 import Stack from "@mui/material/Stack/Stack";
+import ErrorBoundaries from "../../components/error-boundaries/error-boundaries";
+import LoadingPage from "../../components/loading-page/loading-page";
 
 
 export const BlogsContainer = ({ match }: any) => {
@@ -35,9 +37,13 @@ export const BlogsContainer = ({ match }: any) => {
           ))}
         </Stack>
       </HeaderNavBar>
-      <Routes>
-        {Object.keys(blogs_router).map(broute => blogs_router[broute])}
-      </Routes>
+      <ErrorBoundaries>
+        <Suspense fallback={<LoadingPage />}>
+          <Routes>
+            {Object.keys(blogs_router).map(broute => blogs_router[broute])}
+          </Routes>
+        </Suspense>
+      </ErrorBoundaries>
     </>
   )
 }

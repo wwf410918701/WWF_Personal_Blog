@@ -1,11 +1,14 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Route } from "react-router-dom";
-import { AllBlogsPage } from "../pages/all-blogs-page/all-blogs-page";
-import { BlogPage } from "../pages/blog-page/blog-page";
-import { CreateNewBlogsPage } from "../pages/create-new-blogs-page/create-new-blogs-page";
-import { MyBlogsPage } from "../pages/my-blogs-page/my-blogs-page";
+
 import { PrivateRoute } from "../utils/private-route";
 import { RouteStore } from "./root-routers";
+
+const AllBlogsPage = lazy(() => import('../pages/all-blogs-page/all-blogs-page').then(module => ({ default: module.AllBlogsPage })))
+const BlogPage = lazy(() => import('../pages/blog-page/blog-page').then(module => ({ default: module.BlogPage })))
+const CreateNewBlogsPage = lazy(() => import('../pages/create-new-blogs-page/create-new-blogs-page').then(module => ({ default: module.CreateNewBlogsPage })))
+const MyBlogsPage = lazy(() => import('../pages/my-blogs-page/my-blogs-page').then(module => ({ default: module.MyBlogsPage })))
+
 
 export const blogs_router: RouteStore = {
   Personal_Detail_Page: <Route key='allBlogsPage' path={'/'} element={<AllBlogsPage />}/>,
