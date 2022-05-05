@@ -48,7 +48,7 @@ const workExperiences: workExperience[] = [{
 
 export const PersonalDetailPage = () => {
     const headerItems = [{title: "Welcome to Jimmy's website", navigation: () => {}}]
-    const skillsets = [['React', 'Typescript'], ['Javascript', 'Redux & Its popular middlewares'], ['ANTD', 'Material UI'] ]
+    const skillsets = [['React', 'Typescript'], ['Javascript', 'Redux & Its popular middlewares'], ['Material UI', 'ANTD'], ['Styled Component', 'SCSS'] ]
     const workmateFeedback = [{paragraph: 'WeiFeng has solid knowledge of key techniques in frontend development like react, js, hence he was really fast to adapt and start building apps after arrived at company. Besides, I was impressed by his good learning ability, when facing with tasks that contains unfamiliar techniques, he can grasp the skills fastly then begin working.'
       , name: 'WeiBin Zhou', position: 'Frontend developer, Sensetime'}, 
     {paragraph: "I would say WeiFeng is a reliable workmate, he didn't afraid to overcome challenges and can delivery complicated features on time and in high quality.", 
