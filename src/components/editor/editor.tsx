@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
@@ -6,6 +6,7 @@ import { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 import { i18nChangeLanguage } from '@wangeditor/editor'
 import { uploadImg } from '../../firebase/firebase-utils'
 import { DomEditor } from '@wangeditor/editor'
+import { RootStoreContext } from '../../App'
 
 type InsertFnType = (url: string, alt: string, href: string) => void
 
@@ -17,6 +18,7 @@ interface MyEditorProps {
 const MyEditor = ({ placeholder, updateCallback }: MyEditorProps) => {
     const [editor, setEditor] = useState<IDomEditor | null>(null) // 存储 editor 实例
     const [htmlString, setHtmlString] = useState(placeholder) // 编辑器内容
+    const { globalUiStore } = useContext(RootStoreContext)
     i18nChangeLanguage('en')
 
     const toolbarConfig: Partial<IToolbarConfig> = {
@@ -40,8 +42,10 @@ const MyEditor = ({ placeholder, updateCallback }: MyEditorProps) => {
     if(editorConfig?.MENU_CONF) {
         editorConfig.MENU_CONF.uploadImage = {
             customUpload(file: File, insertFn: InsertFnType) {
+            globalUiStore.upLoadingImg = true
             uploadImg(file.name, file)
             .then(imgUrl => {
+                globalUiStore.upLoadingImg = false
                 //update image to the editor based on the online url that is returned by the database
                 insertFn(imgUrl, file.name, '')})
         }}

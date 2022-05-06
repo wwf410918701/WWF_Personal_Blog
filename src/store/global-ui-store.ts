@@ -3,6 +3,7 @@ import RootStore from "./root-store";
 
 class globalUiStore {
   openDrawer = false
+  upLoadingImg = false
   rootStore: RootStore | null = null
 
   constructor(rootStore: RootStore) {

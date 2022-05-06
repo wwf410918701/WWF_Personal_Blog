@@ -95,3 +95,38 @@ code {
 
   border: 1px solid #706d6d;
 }
+
+/* 定义keyframe动画，命名为blink */
+@keyframes blink{
+  0%{opacity: 1;}
+      
+  100%{opacity: 0;} 
+}
+/* 添加兼容性前缀 */
+@-webkit-keyframes blink {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+@-moz-keyframes blink {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+@-ms-keyframes blink {
+    0% {opacity: 1; } 
+    100% { opacity: 0;}
+}
+@-o-keyframes blink {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+/* 定义blink类*/
+.blink{
+    // color: red;
+    font-size:46px;
+    animation: blink 1.8s linear infinite;  
+    /* 其它浏览器兼容性前缀 */
+    -webkit-animation: blink 1.8s linear infinite;
+    -moz-animation: blink 1.8s linear infinite;
+    -ms-animation: blink 1.8s linear infinite;
+    -o-animation: blink 1.8s linear infinite;
+}

@@ -15,6 +15,8 @@ import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Input from "@mui/material/Input";
 import IconButton from "@mui/material/IconButton/IconButton";
+import LoadingButton from "@mui/lab/LoadingButton";
+import CircularProgress from '@mui/material/CircularProgress';
 
 import MyEditor from "../../components/editor/editor";
 import { ContentContainer } from "../../components/shared-cutomsized-components/content-container/content-container";
@@ -51,8 +53,9 @@ export const CreateNewBlogsPage = observer(() => {
   const [showFailureMessage, setShowFailureMessage] = useState(false) 
   const [poster, setPoster] = useState<string | null>(null)
   const [posterImg, setPosterImg] = useState<File | null>(null)
+  const [uploadingBlog, setUploadingBlog] = useState(false)
   const navigate = useNavigate();
-  const { userStore } = useContext(RootStoreContext)
+  const { userStore, globalUiStore } = useContext(RootStoreContext)
 
   //null when this component as create new blog page, not null when as edit blog
   const { blogID } = useParams()
@@ -130,12 +133,25 @@ export const CreateNewBlogsPage = observer(() => {
                 </label>)
           }
         </Box>
-        <TitleBox title={'Post'}/>
+        <Stack justifyContent='start' width='100%' direction='row' alignItems='center'>
+          <Typography variant="h4" sx={{ alignText: 'left', marginTop: '20px', marginBottom: '20px' }}>
+            Post
+          </Typography>
+          {globalUiStore.upLoadingImg?
+          (<Box sx={{ display: 'flex', marginLeft: '50px', alignItems: 'center', justifyContent: 'center' }}>
+            <CircularProgress size={30} />
+            <Typography className="blink" color={'#64b5f6'} marginLeft='20px'>
+              inserting image
+            </Typography>
+          </Box>)
+            :
+            null}
+        </Stack>
         <Box sx={{width: '100%'}}>
           <MyEditor placeholder={paragraph} updateCallback={(htmlString: string) => {setParagraph(htmlString)}}/>
         </Box>
         <Stack direction='row' spacing={5} sx={{marginTop: '50px'}}>
-          <Button variant="contained" component="span" sx={{width: '200px', height: '50px'}} color='success'
+          <LoadingButton variant="contained" component="span" sx={{width: '200px', height: '50px'}} color='success'
             onClick={async () => {
               let validated = true
               if (!title || title.trim().length === 0) {
@@ -147,6 +163,7 @@ export const CreateNewBlogsPage = observer(() => {
                 validated = false
               }
               if(validated) {
+                setUploadingBlog(true)
                 if(!posterImg) {
                   if(poster) {
                     if(blogID? (await updatePost(blogID, title, summary, paragraph, userStore.userName, poster, userStore.userID))
@@ -189,9 +206,11 @@ export const CreateNewBlogsPage = observer(() => {
                 }
               }
             }}
+            loadingPosition='end'
+            loading={uploadingBlog}
           >
             Done
-          </Button>
+          </LoadingButton>
           <Button variant="contained" component="span" sx={{width: '200px', height: '50px'}}
             onClick={() => {
               setOpenCancelConfirm(true)}}
