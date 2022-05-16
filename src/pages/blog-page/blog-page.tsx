@@ -12,6 +12,7 @@ import { createComment, fetchPost, fetchPostSummary } from "../../firebase/fireb
 import { convertToDate } from "../../utils/utils";
 import { CommentCard } from "../../components/comment-card/comment-card";
 import { RootStoreContext } from "../../App";
+import { observer } from "mobx-react-lite";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -30,7 +31,7 @@ export type comment = {
   commentID: number,
 }
 
-export const BlogPage = () => {
+export const BlogPage = observer(() => {
   const [blog, setBlog] = useState('')
   const [title, setTitle] = useState('')
   const [summary, setSummary] = useState({
@@ -157,4 +158,4 @@ export const BlogPage = () => {
       </Snackbar>
     </ContentContainer>
   )
-} 
+} )
