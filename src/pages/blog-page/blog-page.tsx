@@ -94,38 +94,42 @@ export const BlogPage = () => {
           Comments
         </Typography>
       </Divider>
-      <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', marginBottom: '50px', flexDirection: 'column' }}>
-        <TextField id="outlined-basic" 
-          label="Comment..." 
-          variant="outlined" 
-          sx={{width: '95%'}}
-          error={newCommentInputError}
-          onChange={(e) => {
-            setNewCommentInputError(false)
-            setNewCommentText(e.target.value)
-          }}
-        />
-        <Box sx={{width: '95%', display: 'flex', justifyContent: 'end', marginTop: '15px'}}>
-          <Button variant="contained" href="#contained-buttons" onClick={() => {
-            if(newCommentText.trim().length === 0) {
-              setNewCommentInputError(true)
-            }
-            else {
-              createComment(id, newCommentText, userStore.userName, userStore.userID)
-              .then(updatedComments => {
-                // setNewCommentText('')
-                setComments(updatedComments)})
-              .catch(e => {
-                console.log("Error when creating post")
-                console.log(e)
-                setCreateCommentErrorMsg(true)
-              })
-            }
-          }}>
-            Post
-          </Button>
-        </Box>
-      </Box>
+      {userStore.userID ?
+        (<Box sx={{ width: '100%', display: 'flex', alignItems: 'center', marginBottom: '50px', flexDirection: 'column' }}>
+          <TextField id="outlined-basic" 
+            label="Comment..." 
+            variant="outlined" 
+            sx={{width: '95%'}}
+            error={newCommentInputError}
+            onChange={(e) => {
+              setNewCommentInputError(false)
+              setNewCommentText(e.target.value)
+            }}
+          />
+          <Box sx={{width: '95%', display: 'flex', justifyContent: 'end', marginTop: '15px'}}>
+            <Button variant="contained" href="#contained-buttons" onClick={() => {
+              if(newCommentText.trim().length === 0) {
+                setNewCommentInputError(true)
+              }
+              else {
+                createComment(id, newCommentText, userStore.userName, userStore.userID)
+                .then(updatedComments => {
+                  // setNewCommentText('')
+                  setComments(updatedComments)})
+                .catch(e => {
+                  console.log("Error when creating post")
+                  console.log(e)
+                  setCreateCommentErrorMsg(true)
+                })
+              }
+            }}>
+              Post
+            </Button>
+          </Box>
+        </Box>)
+        :
+        <div></div>
+      }
       <Stack spacing={2}>
         {comments.map((comment, index) => 
           <CommentCard 
