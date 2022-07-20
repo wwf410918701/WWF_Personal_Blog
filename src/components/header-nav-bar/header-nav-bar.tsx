@@ -40,7 +40,7 @@ export const HeaderNavBar = observer(({ children }: HeaderNavBarProps) => {
   //   </AppBar>)
 
   return(
-    <AppBar position="static">
+    <AppBar position="static" sx={{ opacity: '90%', ":hover": { opacity:'80%'} }}>
       <Toolbar sx={{ alignItems: 'center' }}>
         {/* <Box> */}
           <IconButton edge='start' onClick={action(() => globalUiStore.openDrawer = true)}>

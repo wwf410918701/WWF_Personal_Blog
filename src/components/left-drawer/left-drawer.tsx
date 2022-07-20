@@ -53,7 +53,7 @@ export const LeftDrawer = observer(() => {
   }]
 
   return (
-    <Drawer anchor='left' open={ globalUiStore.openDrawer } onClose={action(() => globalUiStore.openDrawer = false)}>
+    <Drawer anchor='left' sx={{ opacity: '99%' }} open={ globalUiStore.openDrawer } onClose={action(() => globalUiStore.openDrawer = false)}>
       <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', cursor: 'pointer'}} onClick={() => navigate('/')}>
         <Box sx={{border: '1px dotted', borderColor: '#9e9e9e', margin: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: '20px'}}>
           <img src={OpenForHirePic} alt="" style={{width: '100px', height: '100px'}}/>

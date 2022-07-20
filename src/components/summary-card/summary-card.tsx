@@ -28,7 +28,11 @@ export const SummaryCard = ({ id, title, summary, time, author, posterUrl }: Sum
   const createTime = convertToDate(time)
 
   return (
-    <Card sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', borderRadius: '15px'}} onClick={() => navigate(`/blogs/blogPage/${id}`)}>
+    <Card sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', 
+        justifyContent: 'space-between', cursor: 'pointer', borderRadius: '15px', 
+        backgroundColor: '#0b0a0a'
+      }} 
+      onClick={() => navigate(`/blogs/blogPage/${id}`)}>
       <Stack direction='row' spacing={2} alignItems='center'  sx={{width: '100%'}}>
         <img src={posterUrl?? DefaultBlogPoster} alt={title} style={{width: '280px', height: '280px', padding: "10px", cursor: 'pointer'}} onClick={() => {navigate('/ticketDetail/123')}} />
         <Stack direction='column' justifyContent='space-between' spacing={2} sx={{padding: '20px', marginLeft: '30px', width: '100%', height: '280px' }}>

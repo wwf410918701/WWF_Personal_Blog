@@ -58,9 +58,9 @@ export const SignInOrSignUpPage = ({ signInMode }: SignInOrSignUpPageProps) => {
   }
 
   return (
-    <ContentContainer>
+    <>
       <Box sx={{width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <Paper sx={{minHeight: '500px', minWidth: '600px'}}>
+        <Paper sx={{minHeight: '500px', minWidth: '600px' }}>
           <IconButton size='small' sx={{margin: '10px', color: '#2196f3'}} onClick={() => navigate(-1)}>
             <ArrowBackIosIcon/> Back
           </IconButton>
@@ -177,6 +177,6 @@ export const SignInOrSignUpPage = ({ signInMode }: SignInOrSignUpPageProps) => {
           {signInMode? 'Fail to sign in. Please check your email and password' : 'Fail to create account. Please check if account already exists or try again later.'}
         </Alert>
       </Snackbar>
-    </ContentContainer>
+    </>
   )
 } 

@@ -9,7 +9,7 @@ interface DividerProps {
   icon: JSX.Element,
 }
 
-export const Divider = ({ title, paragraphs, icon }: DividerProps) => (
+export const DividerComponent = ({ title, paragraphs, icon }: DividerProps) => (
   <Box className='divider' key={title+'_divider'}
     sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
     { icon }

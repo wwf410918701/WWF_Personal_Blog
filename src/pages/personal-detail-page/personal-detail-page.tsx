@@ -15,7 +15,7 @@ import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 
 import { HeaderNavBar } from '../../components/header-nav-bar/header-nav-bar';
 import ProgrammerPic from '../../data/images/programmer.png';
-import { Divider } from '../../components/divider/divider';
+import { DividerComponent } from '../../components/divider/divider';
 import { ProjectDetailBox } from "../../components/project-detail-box/project-detail-box";
 import { SkillsSetBox } from "../../components/skills-set-box/skills-set-box";
 import { WorkMateFeedbackBox } from '../../components/workmate-feedbacks-box/workmate-feedback-box';
@@ -57,11 +57,12 @@ export const PersonalDetailPage = () => {
     return (
         <>
           <HeaderNavBar>
-            <Typography variant='h5'>
+            <Typography variant='h5' color='white'>
               Welcome to Jimmy's website
             </Typography>
           </HeaderNavBar>
           <ContentContainer>
+            {/* introduction */}
             <Grid container spacing={2} sx={{ minWidth: '100%' }}>
               <Grid item xs={8}>
                 <Item>
@@ -107,12 +108,14 @@ export const PersonalDetailPage = () => {
                <img src={ProgrammerPic} style={{width: '80%', height: '70%', marginLeft: '50px', marginTop: '50px'}}></img>
               </Grid>
             </Grid>
-            <Divider key='work-experiences'
+            {/* work experiences */}
+            <DividerComponent key='work-experiences'
               title={'Work Experiences'}  
               icon={<WorkHistoryIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
             />
             <WorkExperiencesBox workExperiences={workExperiences}/>
-            <Divider key='project-details'
+            {/* project-details */}
+            <DividerComponent key='project-details'
               title={'My Projects'} 
               paragraphs={
                 [<Typography variant="h5" className="paragraph">
@@ -124,7 +127,8 @@ export const PersonalDetailPage = () => {
               icon={<CodeIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
             />
             <ProjectDetailBox />
-            <Divider key='Skills & Technologies'
+            {/* Skills & Technologies */}
+            <DividerComponent key='Skills & Technologies'
               title={'Skills & Technologies'} 
               paragraphs={
                 [<Typography variant="h5" className="paragraph">
@@ -133,11 +137,13 @@ export const PersonalDetailPage = () => {
               icon={<DeveloperModeIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
             />
             <SkillsSetBox skillsets={skillsets}/>
-            <Divider icon={<PeopleAlt className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>} 
+            {/* workmate feedback */}
+            <DividerComponent icon={<PeopleAlt className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>} 
               title='Feedbacks From My Workmates'
             />
             <WorkMateFeedbackBox feedBacks={workmateFeedback}/>
-            <Divider title="Hire Me" paragraphs={[
+            {/* contact box */}
+            <DividerComponent title="Hire Me" paragraphs={[
               <Typography variant="h5" className="paragraph" sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                 <div>
                   My base and contact details are as followed.
