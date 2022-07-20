@@ -98,7 +98,7 @@ export const AllBlogsPage = () => {
           </Box>
         ))}
       </AutoSlideWrapper>
-      <ContentContainer>
+      <ContentContainer customizedStyles={{opacity: '95%'}}>
         <Divider>
           Blogs
         </Divider>
