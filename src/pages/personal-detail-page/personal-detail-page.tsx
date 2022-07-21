@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Container from '@mui/material/Container';
 import { Box } from "@mui/system";
@@ -23,6 +23,7 @@ import { GoogleMap } from '../../components/google-map/google-map';
 import { ContactInputBox } from "../../components/contact-input-box/contact-input-box";
 import { workExperience, WorkExperiencesBox } from "../../components/work-experiences/work-experiences";
 import { ContentContainer } from "../../components/shared-cutomsized-components/content-container/content-container";
+import { useInView } from "react-intersection-observer";
 
 const workExperiences: workExperience[] = [{
   startTime: 'Dec 2021',
@@ -53,6 +54,31 @@ export const PersonalDetailPage = () => {
       , name: 'WeiBin Zhou', position: 'Frontend developer, Sensetime'}, 
     {paragraph: "I would say WeiFeng is a reliable workmate, he didn't afraid to overcome challenges and can delivery complicated features on time and in high quality.", 
     name: 'Liang Yu', position: 'Senior fullstack developer, Sensetime'}]
+    const [workExpRef, workExpInView, workExpEntry] = useInView({
+      /* Optional options */
+      threshold: 0.15,
+    });
+    const [projExpRef, projInView, projEntry] = useInView({
+      /* Optional options */
+      threshold: 0.15,
+    });
+    const [skillsRef, skillsInView, skillsEntry] = useInView({
+      /* Optional options */
+      threshold: 0.15,
+    });
+    const [feedbackRef, feedbackInView, feedbackEntry] = useInView({
+      /* Optional options */
+      threshold: 0.15,
+    });
+    const [hireMeRef, hireMeInView, hireMeEntry] = useInView({
+      /* Optional options */
+      threshold: 0.15,
+    });
+
+    useEffect(() => {
+      console.log('workExpInView')
+      console.log(workExpInView)
+    }, [workExpInView])
 
     return (
         <>
@@ -111,62 +137,82 @@ export const PersonalDetailPage = () => {
               </Grid>
             </Box>
           </Box>
-          <ContentContainer>
-            {/* work experiences */}
-            <DividerComponent key='work-experiences'
-              title={'Work Experiences'}  
-              icon={<WorkHistoryIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
-            />
-            <WorkExperiencesBox workExperiences={workExperiences}/>
-            {/* project-details */}
-            <DividerComponent key='project-details'
-              title={'My Projects'} 
-              paragraphs={
-                [<Typography variant="h5" className="paragraph">
-                  {'Detail codes in my '}
-                  <Link href="https://github.com/wwf410918701?tab=repositories" underline="hover">
-                      github
-                  </Link> 
-                </Typography>]} 
-              icon={<CodeIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
-            />
-            <ProjectDetailBox />
-            {/* Skills & Technologies */}
-            <DividerComponent key='Skills & Technologies'
-              title={'Skills & Technologies'} 
-              paragraphs={
-                [<Typography variant="h5" className="paragraph">
-                  Contains but not limits to.
-                </Typography>]} 
-              icon={<DeveloperModeIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
-            />
-            <SkillsSetBox skillsets={skillsets}/>
-            {/* workmate feedback */}
-            <DividerComponent icon={<PeopleAlt className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>} 
-              title='Feedbacks From My Workmates'
-            />
-            <WorkMateFeedbackBox feedBacks={workmateFeedback}/>
-            {/* contact box */}
-            <DividerComponent title="Hire Me" paragraphs={[
-              <Typography variant="h5" className="paragraph" sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                <div>
-                  My base and contact details are as followed.
-                </div>
-                <LinkedInIcon className="LinkedInIcon" color="primary" sx={{marginLeft: '5px'}} onClick={() => {window.open("https://www.linkedin.com/in/%E4%BC%9F%E9%94%8B-%E5%90%B4-6b829b1a2/?locale=en_US")}}/>
-              </Typography>]}
-              icon={<ContactPageIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
-            />
-            <Grid id='contactMe' container spacing={2} sx={{ justifyContent: 'center', }}>
-              <Grid item xs={8}>
-                <Box sx={{ height: '500px'}}>
-                  <GoogleMap />
-                </Box>
-              </Grid>
-              <Grid item xs={4}>
-                <ContactInputBox />
-              </Grid>
-            </Grid>
-          </ContentContainer>
+          <>
+            <ContentContainer customizedStyles={{ visibility: workExpInView? null : 'hidden', transition: 'linear 0.3s', opacity: workExpInView? '88%': '0%' }}>
+              <Box ref={workExpRef}>
+                {/* work experiences */}
+                <DividerComponent key='work-experiences'
+                  title={'Work Experiences'}  
+                  icon={<WorkHistoryIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
+                />
+                <WorkExperiencesBox workExperiences={workExperiences}/>
+              </Box>
+            </ContentContainer>
+            <ContentContainer customizedStyles={{ visibility: projInView? null : 'hidden', transition: 'linear 0.3s', opacity: projInView? '88%': '0%'}}>
+              <Box ref={projExpRef}>
+                {/* project-details */}
+                <DividerComponent key='project-details'
+                  title={'My Projects'} 
+                  paragraphs={
+                    [<Typography variant="h5" className="paragraph">
+                      {'Detail codes in my '}
+                      <Link href="https://github.com/wwf410918701?tab=repositories" underline="hover">
+                          github
+                      </Link> 
+                    </Typography>]} 
+                  icon={<CodeIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
+                />
+                <ProjectDetailBox />
+              </Box>
+            </ContentContainer>
+            <ContentContainer customizedStyles={{ visibility: skillsInView? null : 'hidden', transition: 'linear 0.3s', opacity: skillsInView? '88%': '0%' }}>
+              <Box ref={skillsRef}>
+                {/* Skills & Technologies */}
+                <DividerComponent key='Skills & Technologies'
+                  title={'Skills & Technologies'} 
+                  paragraphs={
+                    [<Typography variant="h5" className="paragraph">
+                      Contains but not limits to.
+                    </Typography>]} 
+                  icon={<DeveloperModeIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
+                />
+                <SkillsSetBox skillsets={skillsets}/>
+              </Box>
+            </ContentContainer>
+            <ContentContainer customizedStyles={{ visibility: feedbackInView? null : 'hidden', transition: 'linear 0.3s', opacity: feedbackInView? '88%': '0%' }}>
+              <Box ref={feedbackRef}>
+                {/* workmate feedback */}
+                <DividerComponent icon={<PeopleAlt className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>} 
+                  title='Feedbacks From My Workmates'
+                />
+                <WorkMateFeedbackBox feedBacks={workmateFeedback}/>
+              </Box>
+            </ContentContainer>
+            <ContentContainer customizedStyles={{ visibility: hireMeInView? null : 'hidden', transition: 'linear 0.3s', opacity: hireMeInView? '88%': '0%' }}>
+              <Box ref={hireMeRef}>
+                {/* contact box */}
+                <DividerComponent title="Hire Me" paragraphs={[
+                  <Typography variant="h5" className="paragraph" sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                    <div>
+                      My base and contact details are as followed.
+                    </div>
+                    <LinkedInIcon className="LinkedInIcon" color="primary" sx={{marginLeft: '5px'}} onClick={() => {window.open("https://www.linkedin.com/in/%E4%BC%9F%E9%94%8B-%E5%90%B4-6b829b1a2/?locale=en_US")}}/>
+                  </Typography>]}
+                  icon={<ContactPageIcon className="dividerIcon" style={{ fontSize: '50px', marginBottom: '15px' }}/>}
+                />
+                <Grid id='contactMe' container spacing={2} sx={{ justifyContent: 'center', }}>
+                  <Grid item xs={8}>
+                    <Box sx={{ height: '500px'}}>
+                      <GoogleMap />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <ContactInputBox />
+                  </Grid>
+                </Grid>
+              </Box>
+            </ContentContainer>            
+          </>
         </>
     );
 }
