@@ -6,10 +6,8 @@ import Stack from "@mui/material/Stack";
 
 export default function LoadingPage() {
   return (
-    <ContentContainer >
-      <Stack justifyContent='center' alignItems='center' sx={{ width: '100%', height: '100vh' }}>
-       <CircularProgress size={50} />
-      </Stack>
-    </ContentContainer>
+    <Stack justifyContent='center' alignItems='center' sx={{ width: '100%', height: '100vh' }}>
+      <CircularProgress size={50} />
+    </Stack>
   );
 }
