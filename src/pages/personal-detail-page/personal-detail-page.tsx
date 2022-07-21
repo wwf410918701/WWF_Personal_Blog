@@ -56,58 +56,62 @@ export const PersonalDetailPage = () => {
 
     return (
         <>
-          <HeaderNavBar>
-            <Typography variant='h5' color='white'>
-              Welcome to Jimmy's website
-            </Typography>
-          </HeaderNavBar>
-          <ContentContainer>
-            {/* introduction */}
-            <Grid container spacing={2} sx={{ minWidth: '100%' }}>
-              <Grid item xs={8}>
-                <Item>
-                  <Box sx={{ padding: '20px', marginTop: '100px' }}>
-                    <Box sx={{marginBottom: '20px'}}>
-                      <Typography variant="h4">
-                        Hi, I'm Jimmy{<LinkedInIcon className="LinkedInIcon" color="primary" sx={{marginLeft: '5px'}} onClick={() => {window.open("https://www.linkedin.com/in/%E4%BC%9F%E9%94%8B-%E5%90%B4-6b829b1a2/?locale=en_US")}}/>}
-                        , a frontend developer.
-                      </Typography>
-                      <Typography variant="h4">
-                        I am currently looking for internship opportunity. 
-                      </Typography>
-                      <Typography variant="h5" className="paragraph">
-                        I am now a student of unimelb, majoring in master of IT. 
-                        I previously worked as frontend developer intern in Sensetime, which is a huge Chinese AI company. 
-                        Besides, I also worked in P&G China as developer intern.
-                        Building apps is both my job and interests.
-                      </Typography>
+          <Box sx={{ width: '100%', height: '100vh'}}>
+            <HeaderNavBar>
+              <Typography variant='h5' color='white'>
+                Welcome to Jimmy's website
+              </Typography>
+            </HeaderNavBar>
+            <Box sx={{ minWidth: '100%', minHeight: '100%', display: 'flex', alignItems: 'center' }}>
+              {/* introduction */}
+              <Grid container spacing={2} sx={{ minWidth: '100%', minHeight: '100%', display: 'flex', justifyContent: 'center' }}>
+                <Grid item xs={8}>
+                  <Item>
+                    <Box>
+                      <Box sx={{marginBottom: '20px'}}>
+                        <Typography variant="h4">
+                          Hi, I'm Jimmy{<LinkedInIcon className="LinkedInIcon" color="primary" sx={{marginLeft: '5px'}} onClick={() => {window.open("https://www.linkedin.com/in/%E4%BC%9F%E9%94%8B-%E5%90%B4-6b829b1a2/?locale=en_US")}}/>}
+                          , a frontend developer.
+                        </Typography>
+                        <Typography variant="h4">
+                          I am currently looking for internship opportunity. 
+                        </Typography>
+                        <Typography variant="h5" className="paragraph">
+                          I am now a student of unimelb, majoring in master of IT. 
+                          I previously worked as frontend developer intern in Sensetime, which is a huge Chinese AI company. 
+                          Besides, I also worked in P&G China as developer intern.
+                          Building apps is both my job and interests.
+                        </Typography>
+                      </Box>
+                      <Toolbar sx={{justifyContent: 'center'}}>
+                        <Stack direction='row' spacing={5}>
+                          <Button variant="contained"  color='success' 
+                            onClick={() => {document.querySelector('#contactMe')?.scrollIntoView({behavior: 'smooth'})}}
+                          >
+                            <span style={{color: '#fff'}}>Work With Me</span>
+                          </Button>
+                          <Button variant="outlined" style={{color: '#651fff'}} color='secondary' 
+                            onClick={() => {document.querySelector('#workmateFeedback')?.scrollIntoView({behavior: 'smooth'})}}
+                          >
+                            <span style={{color: '#ce93d8'}}>Feedback from my workmates</span>
+                          </Button>
+                          <Button variant="outlined"
+                            onClick={() => {document.querySelector('#myProject')?.scrollIntoView({behavior: 'smooth'})}}
+                          >
+                            See My Past Work
+                          </Button>
+                        </Stack>
+                      </Toolbar>
                     </Box>
-                    <Toolbar sx={{justifyContent: 'center'}}>
-                      <Stack direction='row' spacing={5}>
-                        <Button variant="contained"  color='success' 
-                          onClick={() => {document.querySelector('#contactMe')?.scrollIntoView({behavior: 'smooth'})}}
-                        >
-                          <span style={{color: '#fff'}}>Work With Me</span>
-                        </Button>
-                        <Button variant="outlined" style={{color: '#651fff'}} color='secondary' 
-                          onClick={() => {document.querySelector('#workmateFeedback')?.scrollIntoView({behavior: 'smooth'})}}
-                        >
-                          <span style={{color: '#ce93d8'}}>Feedback from my workmates</span>
-                        </Button>
-                        <Button variant="outlined"
-                          onClick={() => {document.querySelector('#myProject')?.scrollIntoView({behavior: 'smooth'})}}
-                        >
-                          See My Past Work
-                        </Button>
-                      </Stack>
-                    </Toolbar>
-                  </Box>
-                </Item>
+                  </Item>
+                </Grid>
+                <Grid item xs={3}>
+                  <img src={ProgrammerPic} style={{width: '80%', height: '70%', marginLeft: '50px', marginTop: '50px'}}></img>
+                </Grid>
               </Grid>
-              <Grid item xs={3}>
-               <img src={ProgrammerPic} style={{width: '80%', height: '70%', marginLeft: '50px', marginTop: '50px'}}></img>
-              </Grid>
-            </Grid>
+            </Box>
+          </Box>
+          <ContentContainer>
             {/* work experiences */}
             <DividerComponent key='work-experiences'
               title={'Work Experiences'}  
