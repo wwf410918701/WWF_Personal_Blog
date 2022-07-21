@@ -30,7 +30,7 @@ export const SummaryCard = ({ id, title, summary, time, author, posterUrl }: Sum
   return (
     <Card sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', 
         justifyContent: 'space-between', cursor: 'pointer', borderRadius: '15px', 
-        backgroundColor: '#0b0a0a'
+        backgroundColor: '#0b0a0a', ':hover': {transform: 'scale(1.02)', transition: 'linear 0.1s', backgroundColor: '#110e0e'}
       }} 
       onClick={() => navigate(`/blogs/blogPage/${id}`)}>
       <Stack direction='row' spacing={2} alignItems='center'  sx={{width: '100%'}}>
